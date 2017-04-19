@@ -1,0 +1,182 @@
+public class CSMath
+{
+	public static void main(String [] args)
+	{
+		int[] setA = {1,3,5,7,9,11,15};
+		int[] setB = {1,2,4,6,9,12,15};
+		int[] firstF = {6,4,7,8};
+	    int[] secF = {2,9,5,3};
+		int [] setX = {2,3,6,7,1};
+		int [] setY = {1,9,8,2,5};
+		int [] bitA = {0,0,1,1,0,1,0,1,0};
+		int [] bitB = {1,1,1,1,1,1,0,0,1};
+	}
+	
+	public static int[] getUnion(int[] setA, int[] setB)
+	{
+	int union[] = new int[setA.length+setB.length];
+		int i=0;
+		
+		for( ;i<setA.length;i++)
+		{
+			union[i]=setA[i];
+		}
+			for(int j=0;j<setB.length;j++,i++)
+			{
+				union[j]=setB[i];
+			}
+		int[]res=ArrayManip.removeDuplicates(setA,setB);
+	}		
+		
+	public static int[] getIntersection(int[] setA, int[] setB)
+	{
+		return ArrayManip.commonElements(setA,setB);
+	}
+	
+	public static boolean isInjective(int[] setA, int[] setB, int[] firstF, int[] secF)
+	{
+		
+		return !ArrayManip.hasDuplicates(secF);
+		
+	}
+	public static boolean isSurjective(int[] setA, int[] setB, int[] firstF, int[] secF)
+	{
+		return (isInjective(setA, setB, firstF,secF) && isSurjective(setA, setB, firstF,secF));
+	}
+	
+	public static boolean isFunction(int[] setA, int[] setB, int[] firstF, int[] secF)
+	{
+		return ((setA.length == firstF.length) && ArrayManip.containsAll(setA, firstF));
+	}
+	
+		public static int [] bitAnd(int [] bitA, int [] bitB)
+	{
+		int [] bitC = new int[bitA.length];
+		if(bitA.length == bitB.length)
+		{
+			for(int i = 0; i < bitA.length; i++)
+			{	
+				if((bitA[i] == 1) && (bitB[i] == 1))
+					bitC[i] = 1;
+				else
+					bitC[i] = 0;
+			}
+		}	
+		else
+		{	
+			bitC = new int[0];
+			System.out.println("Error,The bit sequences are different lengths.");
+		}	
+		
+		return bitC;
+	}
+	
+	
+	public static int [] bitOr(int [] bitA, int [] bitB)
+	{
+		int [] bitC = new int[bitA.length];
+		if(bitA.length == bitB.length)
+		{
+			for(int i = 0; i < bitA.length; i++)
+			{	
+				if((bitA[i] == 1) || (bitB[i] == 1))
+					bitC[i] = 1;
+				else
+					bitC[i] = 0;
+			}	
+		}	
+		else
+		{	
+			bitC = new int[0];
+			System.out.println("Error! The bit sequences were of different lengths.");
+		}	
+		return bitC;
+	}
+	
+	
+	public static int[] setToBitSequence(int[] setA)
+	{
+		int [] bitSequence = new int[setA[setA.length-1] + 1];
+		
+		for(int i = 0; i < setA.length; i++)
+			bitSequence[setA[i]] = 1;
+		return bitSequence;
+	}
+	
+	
+	public static int[] bitSequenceToSet(int[] bitA)
+	{
+		int [] tempSet = new int[bitA.length];
+		int ctr = 0;
+		
+		for(int i = 0; i < bitA.length; i++)
+		{
+			if(bitA[i] == 1)
+			{	
+				tempSet[ctr] = i;
+				ctr++;
+			}	
+		}
+		int [] setA = new int[ctr];
+		for(int i = 0; i < ctr; i++)
+			setA[i] = tempSet[i];
+		return setA;
+	}
+	
+	
+	public static int[] bitUnion(int[] setA, int[] setB)
+	{
+		setA = setToBitSequence(setA);
+		setB = setToBitSequence(setB);
+		return bitOr(setA, setB);
+	}
+	public static int[] bitIntersection(int[] setA, int[] setB)
+	{
+		setA = setToBitSequence(setA);
+		setB = setToBitSequence(setB);
+		return bitAnd(setA, setB);
+	}
+	
+	public static int[] bitComplement(int[] setA)
+	{
+		int [] bitA = setToBitSequence(setA);
+		int [] bitNotA = new int[bitA.length];
+		
+		for(int i = 0; i < bitA.length; i++)
+		{
+			if(bitA[i] == 1)
+				bitNotA[i] = 0;
+			else
+				bitNotA[i] = 1;
+		}	
+
+		return bitSequenceToSet(bitNotA);
+	}
+	
+	public static int PowI(int a,int n)
+	{
+		int result=1;
+		int i=0;
+		while(i<n)
+		{
+			result=a*result;
+			i=i+1;
+		}
+			return result;
+	}
+	public static int PowR(int a,int n)
+	{
+		if(n==0)return 1;
+		else return a*PowR(a,n-1);
+	}
+	
+	public static int PowI2(int a,int n)
+	{
+		int result=1;
+		
+		for(int i=0; i < n;i++)
+		result = result*a;
+	
+	return result;
+	}
+}
